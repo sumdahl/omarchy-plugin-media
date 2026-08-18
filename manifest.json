@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.sumdahl.media",
+  "name": "Now Playing",
+  "version": "1.0.0",
+  "author": "Sumiran Dahal",
+  "license": "MIT",
+  "description": "Now-playing panel with album art and playback controls",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "Now Playing",
+    "description": "Now-playing panel with album art and playback controls",
+    "category": "Media",
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "artSize": 96,
+      "showProgress": true,
+      "showSourcePicker": true,
+      "spotifyAccent": true
+    },
+    "schema": [
+      {
+        "key": "artSize",
+        "type": "integer",
+        "label": "Album art size",
+        "min": 48,
+        "max": 200,
+        "step": 8,
+        "defaultValue": 96
+      },
+      {
+        "key": "showProgress",
+        "type": "boolean",
+        "label": "Show track progress",
+        "description": "Elapsed/total time and a seek bar.",
+        "defaultValue": true
+      },
+      {
+        "key": "showSourcePicker",
+        "type": "boolean",
+        "label": "Show source picker",
+        "description": "Lists the other players when more than one is running.",
+        "defaultValue": true
+      },
+      {
+        "key": "spotifyAccent",
+        "type": "boolean",
+        "label": "Spotify accent",
+        "description": "Tint the panel accent while Spotify is the active player.",
+        "defaultValue": true
+      }
+    ]
+  }
+}
