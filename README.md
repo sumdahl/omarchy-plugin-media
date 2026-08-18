@@ -138,8 +138,8 @@ Consequently:
   advertises over MPRIS (usually a local file, or the player's own CDN); no other
   requests are made.
 - **No file writes.** Settings live in Omarchy's own bar config, written by Omarchy.
-- **No privilege escalation**, no `sudo`, no `pkexec`, no service management, no
-  bundled binaries.
+- **No privilege escalation.** The plugin requests no elevated permissions, manages no
+  services, and ships no bundled binaries.
 
 Like every Omarchy plugin, it runs unsandboxed inside the long-lived `omarchy-shell`
 process. The whole thing is one QML file, one plain-JS helper file, and a manifest —
