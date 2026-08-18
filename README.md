@@ -22,7 +22,9 @@ the album art, the track detail, a seek bar, and the transport controls.
   opening the panel at all.
 - **Spotify accent**, optional: tints the panel's accent to Spotify green while Spotify
   is the active player. Falls back to your theme accent for everything else.
-- **Keyboard** — ←/→ skip, ↑/↓ move through the sources, Enter activates, Esc closes.
+- **Keyboard** — a global hotkey to summon the panel (see
+  [Keybindings](#keybindings)), then ←/→ to skip, ↑/↓ to move through the sources,
+  Enter to activate, Esc to close.
 
 Works with any MPRIS player: Spotify, mpv, Firefox, Chromium, VLC, and so on.
 
@@ -34,6 +36,8 @@ omarchy plugin add https://github.com/sumdahl/omarchy-plugin-media.git --enable
 
 Pick a bar section when prompted (`right` is the default). Then enable it later, move it,
 or change its settings from **Omarchy menu → Setup → Bar**.
+
+Optionally add the `SUPER + CTRL + M` hotkey — see [Keybindings](#keybindings).
 
 ## Remove
 
@@ -55,20 +59,70 @@ Configurable per widget instance from the bar setup menu:
 | `showSourcePicker` | `true` | List the other running players at the bottom of the panel. |
 | `spotifyAccent` | `true` | Tint the accent Spotify green while Spotify is the active player. |
 
-## Optional keybinding
+## Keybindings
 
-To toggle the panel from the keyboard, add this to `~/.config/hypr/bindings.lua`:
+Omarchy plugins cannot install keybindings — a plugin only draws itself, it never
+edits your Hyprland config. So this is one manual step, and it is worth doing: the
+panel is much more useful when you can summon it without reaching for the mouse.
+
+Add this to `~/.config/hypr/bindings.lua`, then `hyprctl reload`:
 
 ```lua
 o.bind("SUPER + CTRL + M", "Now Playing", "omarchy-shell shell toggle io.github.sumdahl.media")
 ```
 
+`SUPER + CTRL + M` now toggles the panel open and closed. The same call works from a
+script or another terminal:
+
+```bash
+omarchy-shell shell toggle io.github.sumdahl.media
+```
+
+`omarchy-shell` ships with Omarchy and forwards an IPC message to the shell process
+that is already running — it does not launch anything, and it needs no extra software.
+
+### Once the panel is open
+
+| Key | Action |
+|---|---|
+| `←` / `→` | Previous / next track |
+| `↑` / `↓` | Move through the source list |
+| `Enter` | Switch to the selected source |
+| `Tab` | Move to the next bar panel |
+| `Esc` | Close |
+
+### Without opening the panel
+
+The bar icon responds directly: **middle-click** to play/pause, **scroll** to skip
+tracks.
+
+### Optional: media keys without the panel
+
+If you also want plain transport bindings — the kind that work with no shell panel
+involved — the usual approach is [`playerctl`](https://github.com/altdesktop/playerctl):
+
+```bash
+sudo pacman -S playerctl
+```
+
+```lua
+o.bind("SUPER + ALT + P", "Play/Pause",    "playerctl play-pause")
+o.bind("SUPER + ALT + N", "Next Track",    "playerctl next")
+o.bind("SUPER + ALT + B", "Previous Track", "playerctl previous")
+```
+
+**This is entirely optional and separate from the plugin.** `playerctl` is *not* a
+dependency of this widget — the widget never calls it, and everything above works
+without it installed. It is listed here only because these bindings are a common
+companion to a now-playing widget, and both talk to the same MPRIS players, so they
+stay in sync with each other.
+
 ## Requirements
 
-- Omarchy 4 (Quickshell-based shell)
-- Any MPRIS-capable media player
+- **Omarchy 4** (Quickshell-based shell)
+- **Any MPRIS-capable media player** — Spotify, mpv, Firefox, Chromium, VLC, and so on
 
-No other dependencies.
+That is the complete list. No `playerctl`, no daemons, no Python, no network service.
 
 ## How it works, and what it does not do
 
@@ -90,7 +144,8 @@ Consequently:
   bundled binaries.
 
 Like every Omarchy plugin, it runs unsandboxed inside the long-lived `omarchy-shell`
-process. The whole thing is three files — read them.
+process. The whole thing is one QML file, one plain-JS helper file, and a manifest —
+read them.
 
 ## License
 
