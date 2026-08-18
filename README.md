@@ -99,11 +99,9 @@ tracks.
 ### Optional: media keys without the panel
 
 If you also want plain transport bindings — the kind that work with no shell panel
-involved — the usual approach is [`playerctl`](https://github.com/altdesktop/playerctl):
-
-```bash
-sudo pacman -S playerctl
-```
+involved — the usual approach is [`playerctl`](https://github.com/altdesktop/playerctl),
+available from the Arch repositories as the `playerctl` package. **This plugin does not
+install it, require it, or call it.**
 
 ```lua
 o.bind("SUPER + ALT + P", "Play/Pause",    "playerctl play-pause")
