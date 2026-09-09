@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "io.github.sumdahl.media",
   "name": "Now Playing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Sumiran Dahal",
   "license": "MIT",
   "description": "Now-playing panel with album art and playback controls",

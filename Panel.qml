@@ -15,7 +15,16 @@ Panel {
   moduleName: "io.github.sumdahl.media"
   ipcTarget: "io.github.sumdahl.media"
 
-  readonly property var mediaService: bar?.shell?.firstPartyServiceFor("omarchy.media")
+  // Prefer the first-party service, but do not depend on reaching it: Omarchy
+  // 4.0.3 only exposes omarchy.media to plugins declaring kind "bar", so for a
+  // bar-widget this is simply null and the widget would render nothing at all.
+  // MediaFallback speaks the same small interface over Quickshell's own MPRIS
+  // binding, which the plugin sandbox does not gate.
+  readonly property var hostMediaService: bar?.shell?.firstPartyServiceFor("omarchy.media") ?? null
+  readonly property var mediaService: hostMediaService || fallbackMediaService
+
+  MediaFallback { id: fallbackMediaService }
+
   readonly property var activePlayer: mediaService ? mediaService.activePlayer : null
   readonly property var sourcePlayers: mediaService ? mediaService.sourcePlayers : []
 
